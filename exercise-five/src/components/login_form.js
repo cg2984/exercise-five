@@ -4,7 +4,7 @@ function LoginForm({LoginFunc}){
 	return (
 		<div>
 			<h1>Login Form</h1>	
-			<form className = "signUpForm" onSubmit={(e) => LoginFunc(e)}>
+			<form onSubmit={(e) => LoginFunc(e)}>
 				<label htmlFor="loginEmail">Email</label>
 				<input type = "email" name = "loginEmail"/>
 				<label htmlFor="loginPassword">Password</label>

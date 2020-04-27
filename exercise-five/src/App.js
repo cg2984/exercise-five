@@ -18,7 +18,7 @@ function App() {
   //using useState to do login stuff
   const[loggedIn, setLoggedIn] = useState();
   const[loading, setLoading] = useState(true);
-  const[userInfo,setUserInfo] = useState()
+  const[userInfo,setUserInfo] = useState();
 
   //firebase config. should remain at the top of the app
   const firebaseConfig = {
@@ -70,12 +70,15 @@ useEffect(() => {
   //Login
   function LoginFunc(e){
     e.preventDefault();
-    console.log("form payload", e);
-    console.log("email", e.CurrentTarget.loginEmail.value);
+    console.log("login start");
+    console.log("e", e);
+    
+    console.log("e current target", e.CurrentTarget);
 
     let email = e.CurrentTarget.loginEmail.value;
+    console.log("email",email);
     let password = e.CurrentTarget.loginPassword.value;
-
+    console.log("password",password);
     firebase
       .auth()
       .signInWithEmailAndPassword(email,password)
@@ -86,6 +89,7 @@ useEffect(() => {
       .catch(function(e){
         console.log("Login Error", e);
       });
+    console.log("end of function");
   }
 
   function CreateFunc(e){
@@ -94,10 +98,9 @@ useEffect(() => {
     e.preventDefault();
     console.log("form payload", e);
     let email = e.CurrentTarget.createEmail.value;
-    console.log("email",email)
-    console.log("e current target", e.CurrentTarget);
+    console.log("email",email);
     let password = e.CurrentTarget.createPassword.value;
-    
+    console.log("password",password);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email,password)
@@ -111,6 +114,7 @@ useEffect(() => {
         console.log("Create Account Error", e);
         console.log("e",e.CurrentTarget);
       });
+      console.log("end of function")
   }
 
   function LogoutFunc(){
