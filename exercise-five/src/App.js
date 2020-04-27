@@ -62,7 +62,6 @@ useEffect(() => {
     }else{
       setLoggedIn(false);
     }
-    //not loading anymore because we know whether user is logged in or not
     setLoading(false);
   })
 },[])
