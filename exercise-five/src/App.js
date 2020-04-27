@@ -74,7 +74,7 @@ useEffect(() => {
     console.log("e", e);
     
     console.log("e current target", e.CurrentTarget);
-
+    //this is where is fails 
     let email = e.CurrentTarget.loginEmail.value;
     console.log("email",email);
     let password = e.CurrentTarget.loginPassword.value;
