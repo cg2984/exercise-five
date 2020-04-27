@@ -1,7 +1,7 @@
 import React from "react";
 import CreateAccountForm from "../components/create_account_form"
 
-function Account({CreateFunc}){
+function CreateAccount({CreateFunc}){
 	return (
 		<div>
 			<h1>Create Account</h1>	
@@ -10,4 +10,4 @@ function Account({CreateFunc}){
 	);
 }
 
-export default Account;
+export default CreateAccount;

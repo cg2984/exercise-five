@@ -1,11 +1,12 @@
 import React from "react";
 
-function Profile(){
+function UserProfile({userInfo}){
 	return (
 		<div>
 			<h1> User Profile</h1>	
+			<p> User Email: {userInfo.email}</p>
 		</div>
 	);
 }
 
-export default Profile;
+export default UserProfile;

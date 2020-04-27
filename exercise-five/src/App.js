@@ -3,18 +3,22 @@ import React, {useEffect,useState} from 'react';
 import firebase from "firebase/app"
 import "firebase/auth"
 import './App.css';
-import Profile from "./pages/user_profile";
+import UserProfile from "./pages/user_profile";
 import Login from "./pages/login";
-import Account from "./pages/create_account";
+import CreateAccount from "./pages/create_account";
+import Header from "./components/header.js"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect
 } from "react-router-dom";
 
 function App() {
   //using useState to do login stuff
   const[loggedIn, setLoggedIn] = useState();
+  const[loading, setLoading] = useState(true);
+  const[userInfo,setUserInfo] = useState()
 
   //firebase config. should remain at the top of the app
   const firebaseConfig = {
@@ -44,10 +48,30 @@ function App() {
     //making sure firebase config is there before we initialize the firebase app
   },[firebaseConfig]);
 
+//check to see if the user is logged in 
+//user loads page, check status
+//set state accordingly 
+useEffect(() => {
+  //onAuthStateChanged recieves a callabck function as an arguement
+  firebase.auth().onAuthStateChanged(function(user){
+    //getting value of auth user, can be called anything tho
+    //Logged In
+    if(user){
+      setLoggedIn(true);
+      setUserInfo(user);
+    }else{
+      setLoggedIn(false);
+    }
+    //not loading anymore because we know whether user is logged in or not
+    setLoading(false);
+  })
+},[])
+
   //Login
   function LoginFunc(e){
     e.preventDefault();
     console.log("form payload", e);
+    console.log("email", e.CurrentTarget.loginEmail.value);
 
     let email = e.CurrentTarget.loginEmail.value;
     let password = e.CurrentTarget.loginPassword.value;
@@ -61,7 +85,7 @@ function App() {
       })
       .catch(function(e){
         console.log("Login Error", e);
-      })
+      });
   }
 
   function CreateFunc(e){
@@ -69,13 +93,10 @@ function App() {
     //this prevents the form from sending a default form
     e.preventDefault();
     console.log("form payload", e);
-
-    //testing vals
     let email = e.CurrentTarget.createEmail.value;
+    console.log("email",email)
+    console.log("e current target", e.CurrentTarget);
     let password = e.CurrentTarget.createPassword.value;
-
-    console.log("email",email);
-    console.log("password",password);
     
     firebase
       .auth()
@@ -88,7 +109,8 @@ function App() {
      //if createUserEmail etc fails .catch happens
       .catch(function(e){
         console.log("Create Account Error", e);
-      })
+        console.log("e",e.CurrentTarget);
+      });
   }
 
   function LogoutFunc(){
@@ -101,22 +123,31 @@ function App() {
         
         .catch(function (error){
           console.log("logout error", error);
-        })
+        });
 
   }
 
 
   return (
     <div className="App">
+      <Header/>
       <Router>
         <Route exact path="/">
-          <Profile/>
+          {!loggedIn ? <Redirect to="/login"/> : <UserProfile userInfo={userInfo}/>}
         </Route>
         <Route exact path="/login">
-          <Login/>
+          {!loggedIn ? (
+            <Login LoginFunc={LoginFunc}/>
+            ) : (
+              <Redirect to="/"/>
+            )}
         </Route>
         <Route exact path="/create-account">
-          <Account CreateFunc={CreateFunc}/>
+           {!loggedIn ? (
+           <CreateAccount CreateFunc={CreateFunc}/>
+            ) : (
+              <Redirect to="/"/>
+            )}
         </Route>
       </Router>
     </div>
