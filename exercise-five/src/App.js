@@ -71,9 +71,9 @@ useEffect(() => {
     e.preventDefault();
     console.log("login start");
     console.log("e", e);
-    
+    //this returns undefined
     console.log("e current target", e.CurrentTarget);
-    //this is where is fails 
+    //---------------------------------------------------this is where is fails and says undefined. nothing past here happens
     let email = e.CurrentTarget.loginEmail.value;
     console.log("email",email);
     let password = e.CurrentTarget.loginPassword.value;
@@ -89,6 +89,7 @@ useEffect(() => {
         console.log("Login Error", e);
       });
     console.log("end of function");
+    //--------------------------------------------------this is the end of the login function
   }
 
   function CreateFunc(e){
@@ -96,6 +97,7 @@ useEffect(() => {
     //this prevents the form from sending a default form
     e.preventDefault();
     console.log("form payload", e);
+    //----------------------------------------------------------this is where is fails, in the same place as the login function
     let email = e.CurrentTarget.createEmail.value;
     console.log("email",email);
     let password = e.CurrentTarget.createPassword.value;
@@ -114,6 +116,7 @@ useEffect(() => {
         console.log("e",e.CurrentTarget);
       });
       console.log("end of function")
+    //-------------------------------------------------------------end of the create function
   }
 
   function LogoutFunc(){
