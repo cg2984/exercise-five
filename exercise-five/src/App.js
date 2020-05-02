@@ -16,7 +16,7 @@ import {
 
 function App() {
   //using useState to do login stuff
-  const[loggedIn, setLoggedIn] = useState();
+  const[loggedIn, setLoggedIn] = useState(false);
   const[loading, setLoading] = useState(true);
   const[userInfo,setUserInfo] = useState({});
 
@@ -59,11 +59,13 @@ useEffect(() => {
     if(user){
       setLoggedIn(true);
       setUserInfo(user);
+      console.log("logged in");
     }else{
       setLoggedIn(false);
+      console.log("logged out");
     }
   })
-},[])
+},[]);
 
   //Login
   function LoginFunc(e){
@@ -123,7 +125,7 @@ useEffect(() => {
 
   return (
     <div className="App">
-      <Header/>
+      <Header LogoutFunc={LogoutFunc} loggedIn = {loggedIn}/>
       <Router>
         <Route exact path="/">
           {!loggedIn ? <Redirect to="/login"/> : <UserProfile userInfo={userInfo}/>}
