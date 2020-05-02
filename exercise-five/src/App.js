@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from 'react';
 //the star means import everything
-import firebase from "firebase/app"
-import "firebase/auth"
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import './App.css';
 import UserProfile from "./pages/user_profile";
 import Login from "./pages/login";
@@ -18,7 +18,7 @@ function App() {
   //using useState to do login stuff
   const[loggedIn, setLoggedIn] = useState();
   const[loading, setLoading] = useState(true);
-  const[userInfo,setUserInfo] = useState();
+  const[userInfo,setUserInfo] = useState({});
 
   //firebase config. should remain at the top of the app
   const firebaseConfig = {
@@ -62,22 +62,15 @@ useEffect(() => {
     }else{
       setLoggedIn(false);
     }
-    setLoading(false);
   })
 },[])
 
   //Login
   function LoginFunc(e){
     e.preventDefault();
-    console.log("login start");
-    console.log("e", e);
-    //this returns undefined
-    console.log("e current target", e.CurrentTarget);
-    //---------------------------------------------------this is where is fails and says undefined. nothing past here happens
-    let email = e.CurrentTarget.loginEmail.value;
-    console.log("email",email);
-    let password = e.CurrentTarget.loginPassword.value;
-    console.log("password",password);
+    console.log("e current target", e.currentTarget);
+    let email = e.currentTarget.loginEmail.value;
+    let password = e.currentTarget.loginPassword.value;
     firebase
       .auth()
       .signInWithEmailAndPassword(email,password)
@@ -89,7 +82,6 @@ useEffect(() => {
         console.log("Login Error", e);
       });
     console.log("end of function");
-    //--------------------------------------------------this is the end of the login function
   }
 
   function CreateFunc(e){
@@ -97,11 +89,8 @@ useEffect(() => {
     //this prevents the form from sending a default form
     e.preventDefault();
     console.log("form payload", e);
-    //----------------------------------------------------------this is where is fails, in the same place as the login function
-    let email = e.CurrentTarget.createEmail.value;
-    console.log("email",email);
-    let password = e.CurrentTarget.createPassword.value;
-    console.log("password",password);
+    let email = e.currentTarget.createEmail.value;
+    let password = e.currentTarget.createPassword.value;
     firebase
       .auth()
       .createUserWithEmailAndPassword(email,password)
@@ -113,10 +102,8 @@ useEffect(() => {
      //if createUserEmail etc fails .catch happens
       .catch(function(e){
         console.log("Create Account Error", e);
-        console.log("e",e.CurrentTarget);
+        console.log("e",e.currentTarget);
       });
-      console.log("end of function")
-    //-------------------------------------------------------------end of the create function
   }
 
   function LogoutFunc(){
